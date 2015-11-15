@@ -5,8 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import org.w3c.dom.Comment;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,13 +21,22 @@ public abstract class Dao<T> extends SQLiteOpenHelper {
         super(context, name, factory, version);
     }
 
-    public abstract T getInstance(int id);
     public abstract void save(T instance);
     public abstract void update(T instance);
     public abstract T deserialize(Cursor cursor);
 
     public void open() { database = getWritableDatabase(); }
     public void close() { database.close(); }
+
+    public T getInstance(int id) {
+        Cursor cursor = database.query(TABLE, COLUMNS, "id = " + id, null, null, null, null);
+
+        cursor.moveToFirst();
+        T instance = deserialize(cursor);
+        cursor.close();
+
+        return instance;
+    }
 
     public List<T> getAll() {
         List<T> instances = new ArrayList<T>();

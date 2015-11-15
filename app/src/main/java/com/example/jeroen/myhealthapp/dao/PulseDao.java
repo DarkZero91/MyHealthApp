@@ -24,11 +24,6 @@ public class PulseDao extends Dao<Pulse> {
     }
 
     @Override
-    public Pulse getInstance(int id) {
-        return null;
-    }
-
-    @Override
     public void save(Pulse instance) {
         ContentValues values = new ContentValues();
 
@@ -43,9 +38,7 @@ public class PulseDao extends Dao<Pulse> {
     }
 
     @Override
-    public void update(Pulse instance) {
-
-    }
+    public void update(Pulse instance) {}
 
     @Override
     public Pulse deserialize(Cursor cursor) {
