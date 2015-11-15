@@ -17,8 +17,8 @@ public abstract class Dao<T> extends SQLiteOpenHelper {
     protected static String[] COLUMN_TYPES;
     protected SQLiteDatabase database;
 
-    public Dao(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public Dao(Context context) {
+        super(context, TABLE, null, 1);
     }
 
     public abstract void save(T instance);

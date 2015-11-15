@@ -19,9 +19,7 @@ public class PulseDao extends Dao<Pulse> {
     protected static String[] COLUMN_TYPES = {"TEXT NOT NULL"};
     private static char DATA_SEPERATOR = '|';
 
-    public PulseDao(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
-    }
+    public PulseDao(Context context) { super(context); }
 
     @Override
     public void save(Pulse instance) {
