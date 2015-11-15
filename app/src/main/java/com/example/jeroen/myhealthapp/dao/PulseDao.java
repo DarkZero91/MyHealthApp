@@ -17,6 +17,7 @@ public class PulseDao extends Dao<Pulse> {
     protected static String TABLE = "pulse";
     protected static String[] COLUMNS = {"data"};
     protected static String[] COLUMN_TYPES = {"TEXT NOT NULL"};
+    private static char DATA_SEPERATOR = '|';
 
     public PulseDao(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -29,7 +30,16 @@ public class PulseDao extends Dao<Pulse> {
 
     @Override
     public void save(Pulse instance) {
-        
+        ContentValues values = new ContentValues();
+
+        String data = "";
+        for(int val : instance.getData()) {
+            data += val + DATA_SEPERATOR;
+        }
+        data = data.substring(0, data.length() - 1);
+
+        values.put("data", data);
+        database.insert(TABLE, null, values);
     }
 
     @Override
@@ -39,6 +49,14 @@ public class PulseDao extends Dao<Pulse> {
 
     @Override
     public Pulse deserialize(Cursor cursor) {
-        return null;
+        Pulse pulse = new Pulse();
+        pulse.setId((int) cursor.getLong(0));
+        String data = cursor.getString(1);
+
+        for(String val : data.split(DATA_SEPERATOR + "")) {
+            pulse.addData(Integer.parseInt(val));
+        }
+
+        return pulse;
     }
 }
