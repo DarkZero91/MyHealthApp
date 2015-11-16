@@ -12,7 +12,7 @@ import com.example.jeroen.myhealthapp.models.ECG;
 public class ECGDao extends Dao<ECG, ECGDao> {
     protected static ECGDao singleton;
     protected static char DATA_SEPERATOR = ',';
-    private static int VERSION = 3;
+    private static int VERSION = 1;
 
     private ECGDao(Context context) {
         super(context, "ecg", VERSION);

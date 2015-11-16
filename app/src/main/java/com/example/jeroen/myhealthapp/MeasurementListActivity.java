@@ -7,28 +7,32 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.jeroen.myhealthapp.dao.Dao;
+import com.example.jeroen.myhealthapp.dao.DaoFactory;
 import com.example.jeroen.myhealthapp.dao.ECGDao;
+import com.example.jeroen.myhealthapp.dao.PulseDao;
 import com.example.jeroen.myhealthapp.models.ECG;
+import com.example.jeroen.myhealthapp.models.Measurement;
+import com.example.jeroen.myhealthapp.models.Pulse;
 
 import java.util.List;
 
 public class MeasurementListActivity extends AppCompatActivity {
-    public static int ECG_TYPE = 0;
-    public static int PULSE_TYPE = 1;
-    public static int BLOOD_PRESSURE_TYPE = 2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_measurement_list);
-        int type = getIntent().getIntExtra("measurement_type", ECG_TYPE);
+        int type = getIntent().getIntExtra("measurement_type", DaoFactory.PULSE);
 
-        ECGDao dao = ECGDao.getDao(this);
+        // populateDb();
+
+        Dao dao = DaoFactory.getDao(type, this);
         dao.open();
-        //populate(dao);
 
-        List<ECG> values = dao.getAll();
-        ArrayAdapter<ECG> adapter = new ArrayAdapter<ECG>(this, R.layout.measurement_list_row, R.id.text1, values);
+        List<Measurement> values = dao.getAll();
+        ArrayAdapter<Measurement> adapter = new ArrayAdapter<>(this, R.layout.measurement_list_row, R.id.text1, values);
 
         ListView list = (ListView) findViewById(R.id.list);
         list.setAdapter(adapter);
@@ -58,11 +62,26 @@ public class MeasurementListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void populate(ECGDao dao) {
+    private void populateDb() {
+        // ECG Data
+        Dao dao = ECGDao.getDao(this);
+        dao.open();
+
         ECG ecg = new ECG();
         int[] data = {100, 1000, 200, 300, 150};
         for(int i = 0; i < 10; i++) { ecg.addData(data); }
-
         dao.save(ecg);
+
+        dao.close();
+
+        // Pulse data
+        dao = PulseDao.getDao(this);
+        dao.open();
+
+        Pulse pulse = new Pulse();
+        pulse.setHeartRate((new Double(Math.random() * (100 - 60) + 60)).intValue());
+        dao.save(pulse);
+
+        dao.close();
     }
 }

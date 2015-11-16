@@ -6,13 +6,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v4.content.res.TypedArrayUtils;
 
+import com.example.jeroen.myhealthapp.models.Measurement;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Jeroen on 12-11-2015.
  */
-public abstract class Dao<T, D> extends SQLiteOpenHelper {
+public abstract class Dao<T extends Measurement, D> extends SQLiteOpenHelper {
     protected String TABLE;
     protected String[] COLUMNS;
     protected String[] COLUMN_TYPES;
@@ -39,8 +41,8 @@ public abstract class Dao<T, D> extends SQLiteOpenHelper {
         return instance;
     }
 
-    public List<T> getAll() {
-        List<T> instances = new ArrayList<T>();
+    public List<Measurement> getAll() {
+        List<Measurement> instances = new ArrayList<>();
         Cursor cursor = database.query(TABLE, getColumns(), null, null, null, null, null);
 
         cursor.moveToFirst();
