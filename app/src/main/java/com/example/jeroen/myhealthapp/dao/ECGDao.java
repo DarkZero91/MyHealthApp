@@ -4,30 +4,30 @@ import android.content.Context;
 import android.database.Cursor;
 import android.content.ContentValues;
 
-import com.example.jeroen.myhealthapp.models.Pulse;
+import com.example.jeroen.myhealthapp.models.ECG;
 
 /**
  * Created by Jeroen on 12-11-2015.
  */
-public class PulseDao extends Dao<Pulse, PulseDao> {
-    protected static PulseDao singleton;
+public class ECGDao extends Dao<ECG, ECGDao> {
+    protected static ECGDao singleton;
     protected static char DATA_SEPERATOR = ',';
     private static int VERSION = 3;
 
-    private PulseDao(Context context) {
-        super(context, "pulse", VERSION);
-        TABLE = "pulse";
+    private ECGDao(Context context) {
+        super(context, "ecg", VERSION);
+        TABLE = "ecg";
         COLUMNS = new String[]{"data", "timestamp"};
         COLUMN_TYPES = new String[]{"TEXT NOT NULL", "TEXT NOT NULL"};
     }
 
-    public static PulseDao getDao(Context context) {
-        if(singleton == null) { singleton = new PulseDao(context); }
+    public static ECGDao getDao(Context context) {
+        if(singleton == null) { singleton = new ECGDao(context); }
         return singleton;
     }
 
     @Override
-    public void save(Pulse instance) {
+    public void save(ECG instance) {
         ContentValues values = new ContentValues();
 
         String data = "";
@@ -43,21 +43,21 @@ public class PulseDao extends Dao<Pulse, PulseDao> {
     }
 
     @Override
-    public void update(Pulse instance) {}
+    public void update(ECG instance) {}
 
     @Override
-    public Pulse deserialize(Cursor cursor) {
-        Pulse pulse = new Pulse();
-        pulse.setId((int) cursor.getLong(0));
+    public ECG deserialize(Cursor cursor) {
+        ECG ecg = new ECG();
+        ecg.setId((int) cursor.getLong(0));
         String data = cursor.getString(cursor.getColumnIndexOrThrow("data"));
         String[] vals = data.split(DATA_SEPERATOR + "");
 
         for(String val : vals) {
-            pulse.addData(Integer.parseInt(val));
+            ecg.addData(Integer.parseInt(val));
         }
 
-        pulse.setTimestamp(cursor.getString(cursor.getColumnIndexOrThrow("timestamp")));
+        ecg.setTimestamp(cursor.getString(cursor.getColumnIndexOrThrow("timestamp")));
 
-        return pulse;
+        return ecg;
     }
 }

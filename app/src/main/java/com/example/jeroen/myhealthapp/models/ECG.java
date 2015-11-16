@@ -8,12 +8,12 @@ import java.util.List;
 /**
  * Created by Jeroen on 11-11-2015.
  */
-public class Pulse implements Measurement {
+public class ECG implements Measurement {
     private int id;
     private List<Integer> data;
     private String timestamp = Date.getTimestamp();
 
-    public Pulse() { data = new ArrayList<Integer>(); }
+    public ECG() { data = new ArrayList<Integer>(); }
 
     public void setId(int id) { this.id = id; }
     public int getId() { return id; }
