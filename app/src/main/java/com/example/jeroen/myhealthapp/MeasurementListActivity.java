@@ -7,8 +7,11 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.jeroen.myhealthapp.dao.PulseDao;
 import com.example.jeroen.myhealthapp.models.Measurement;
+import com.example.jeroen.myhealthapp.models.Pulse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MeasurementListActivity extends AppCompatActivity {
@@ -22,10 +25,17 @@ public class MeasurementListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_measurement_list);
         int type = getIntent().getIntExtra("measurement_type", ECG_TYPE);
 
-        ArrayAdapter<Measurement> adapter = new ArrayAdapter<Measurement>(this, R.layout.measurement_list_row);
+        PulseDao dao = PulseDao.getDao(this);
+        dao.open();
+        //populate(dao);
 
-        ListView list = (ListView) findViewById(R.id.listView);
+        List<Pulse> values = dao.getAll();
+        ArrayAdapter<Pulse> adapter = new ArrayAdapter<Pulse>(this, R.layout.measurement_list_row, R.id.text1, values);
+
+        ListView list = (ListView) findViewById(R.id.list);
         list.setAdapter(adapter);
+
+        dao.close();
     }
 
     @Override
@@ -48,5 +58,13 @@ public class MeasurementListActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void populate(PulseDao dao) {
+        Pulse pulse = new Pulse();
+        int[] data = {100, 1000, 200, 300, 150};
+        for(int i = 0; i < 10; i++) { pulse.addData(data); }
+
+        dao.save(pulse);
     }
 }

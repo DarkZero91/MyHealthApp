@@ -11,13 +11,13 @@ import java.util.List;
 /**
  * Created by Jeroen on 12-11-2015.
  */
-public abstract class Dao<T> extends SQLiteOpenHelper {
-    protected static String TABLE;
-    protected static String[] COLUMNS;
-    protected static String[] COLUMN_TYPES;
+public abstract class Dao<T, D> extends SQLiteOpenHelper {
+    protected String TABLE;
+    protected String[] COLUMNS;
+    protected String[] COLUMN_TYPES;
     protected SQLiteDatabase database;
 
-    public Dao(Context context) {
+    public Dao(Context context, String TABLE) {
         super(context, TABLE, null, 1);
     }
 

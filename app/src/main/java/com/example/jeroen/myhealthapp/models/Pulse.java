@@ -15,12 +15,17 @@ public class Pulse implements Measurement {
     public void setId(int id) { this.id = id; }
     public int getId() { return id; }
 
-    public void addData(int data) {
-        this.data.add(data);
+    public void addData(int data) { this.data.add(data); }
+
+    public void addData(int[] data) {
+        for(int d : data) {
+            this.data.add(d);
+        }
     }
 
     public Integer[] getData() {
         Integer[] type = new Integer[data.size()];
         return data.toArray(type);
     }
+
 }
