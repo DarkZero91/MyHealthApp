@@ -7,10 +7,12 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.jeroen.myhealthapp.dao.BloodPressureDao;
 import com.example.jeroen.myhealthapp.dao.Dao;
 import com.example.jeroen.myhealthapp.dao.DaoFactory;
 import com.example.jeroen.myhealthapp.dao.ECGDao;
 import com.example.jeroen.myhealthapp.dao.PulseDao;
+import com.example.jeroen.myhealthapp.models.BloodPressure;
 import com.example.jeroen.myhealthapp.models.ECG;
 import com.example.jeroen.myhealthapp.models.Measurement;
 import com.example.jeroen.myhealthapp.models.Pulse;
@@ -26,7 +28,7 @@ public class MeasurementListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_measurement_list);
         int type = getIntent().getIntExtra("measurement_type", DaoFactory.PULSE);
 
-        // populateDb();
+        //populateDb();
 
         Dao dao = DaoFactory.getDao(type, this);
         dao.open();
@@ -81,6 +83,17 @@ public class MeasurementListActivity extends AppCompatActivity {
         Pulse pulse = new Pulse();
         pulse.setHeartRate((new Double(Math.random() * (100 - 60) + 60)).intValue());
         dao.save(pulse);
+
+        dao.close();
+
+        // Blood pressure data
+        dao = BloodPressureDao.getDao(this);
+        dao.open();
+
+        BloodPressure pressure = new BloodPressure();
+        pressure.setOver((new Double(Math.random() * (190 - 110) + 110)).intValue());
+        pressure.setUnder((new Double(Math.random() * (120 - 70) + 70)).intValue());
+        dao.save(pressure);
 
         dao.close();
     }

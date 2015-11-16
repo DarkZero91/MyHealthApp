@@ -14,12 +14,10 @@ public class DaoFactory {
 
     public static Dao getDao(int type, Context context) {
         switch(type) {
-            case ECG:
-                return ECGDao.getDao(context);
-            case PULSE:
-                return PulseDao.getDao(context);
-            default:
-                return null;
+            case ECG: return ECGDao.getDao(context);
+            case PULSE: return PulseDao.getDao(context);
+            case BLOOD_PRESSURE: return BloodPressureDao.getDao(context);
+            default: return null;
         }
     }
 }
