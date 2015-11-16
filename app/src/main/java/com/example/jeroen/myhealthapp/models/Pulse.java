@@ -1,5 +1,7 @@
 package com.example.jeroen.myhealthapp.models;
 
+import com.example.jeroen.myhealthapp.util.Date;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import java.util.List;
 public class Pulse implements Measurement {
     private int id;
     private List<Integer> data;
+    private String timestamp = Date.getTimestamp();
 
     public Pulse() { data = new ArrayList<Integer>(); }
 
@@ -28,4 +31,11 @@ public class Pulse implements Measurement {
         return data.toArray(type);
     }
 
+    public void setTimestamp(String timestamp) { this.timestamp = timestamp; }
+    public String getTimestamp() { return timestamp; }
+
+    @Override
+    public String toString() {
+        return "(" + id + ") " + timestamp;
+    }
 }

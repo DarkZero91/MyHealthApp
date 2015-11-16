@@ -8,10 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.jeroen.myhealthapp.dao.PulseDao;
-import com.example.jeroen.myhealthapp.models.Measurement;
 import com.example.jeroen.myhealthapp.models.Pulse;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MeasurementListActivity extends AppCompatActivity {

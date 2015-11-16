@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.v4.content.res.TypedArrayUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,8 @@ public abstract class Dao<T, D> extends SQLiteOpenHelper {
     protected String[] COLUMN_TYPES;
     protected SQLiteDatabase database;
 
-    public Dao(Context context, String TABLE) {
-        super(context, TABLE, null, 1);
+    public Dao(Context context, String TABLE, int version) {
+        super(context, TABLE, null, version);
     }
 
     public abstract void save(T instance);
@@ -29,7 +30,7 @@ public abstract class Dao<T, D> extends SQLiteOpenHelper {
     public void close() { database.close(); }
 
     public T getInstance(int id) {
-        Cursor cursor = database.query(TABLE, COLUMNS, "id = " + id, null, null, null, null);
+        Cursor cursor = database.query(TABLE, getColumns(), "id = " + id, null, null, null, null);
 
         cursor.moveToFirst();
         T instance = deserialize(cursor);
@@ -40,7 +41,7 @@ public abstract class Dao<T, D> extends SQLiteOpenHelper {
 
     public List<T> getAll() {
         List<T> instances = new ArrayList<T>();
-        Cursor cursor = database.query(TABLE, COLUMNS, null, null, null, null, null);
+        Cursor cursor = database.query(TABLE, getColumns(), null, null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -70,5 +71,14 @@ public abstract class Dao<T, D> extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE);
         onCreate(db);
+    }
+
+    private String[] getColumns() {
+        String[] columns = new String[1 + COLUMNS.length];
+        columns[0] = "id";
+
+        for(int i = 0; i < COLUMNS.length; i++) { columns[i + 1] = COLUMNS[i]; }
+
+        return columns;
     }
 }

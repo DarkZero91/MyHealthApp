@@ -2,13 +2,9 @@ package com.example.jeroen.myhealthapp.dao;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.content.ContentValues;
 
 import com.example.jeroen.myhealthapp.models.Pulse;
-
-import org.w3c.dom.Comment;
 
 /**
  * Created by Jeroen on 12-11-2015.
@@ -16,12 +12,13 @@ import org.w3c.dom.Comment;
 public class PulseDao extends Dao<Pulse, PulseDao> {
     protected static PulseDao singleton;
     protected static char DATA_SEPERATOR = ',';
+    private static int VERSION = 3;
 
     private PulseDao(Context context) {
-        super(context, "pulse");
+        super(context, "pulse", VERSION);
         TABLE = "pulse";
-        COLUMNS = new String[]{"data"};
-        COLUMN_TYPES = new String[]{"TEXT NOT NULL"};
+        COLUMNS = new String[]{"data", "timestamp"};
+        COLUMN_TYPES = new String[]{"TEXT NOT NULL", "TEXT NOT NULL"};
     }
 
     public static PulseDao getDao(Context context) {
@@ -40,6 +37,8 @@ public class PulseDao extends Dao<Pulse, PulseDao> {
         data = data.substring(0, data.length() - 1);
 
         values.put("data", data);
+        values.put("timestamp", instance.getTimestamp());
+
         database.insert(TABLE, null, values);
     }
 
@@ -56,6 +55,8 @@ public class PulseDao extends Dao<Pulse, PulseDao> {
         for(String val : vals) {
             pulse.addData(Integer.parseInt(val));
         }
+
+        pulse.setTimestamp(cursor.getString(cursor.getColumnIndexOrThrow("timestamp")));
 
         return pulse;
     }
