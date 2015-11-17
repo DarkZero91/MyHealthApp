@@ -1,4 +1,4 @@
-package com.example.jeroen.myhealthapp;
+package com.example.jeroen.myhealthapp.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.app.Activity;
@@ -21,6 +21,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.example.jeroen.myhealthapp.R;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.

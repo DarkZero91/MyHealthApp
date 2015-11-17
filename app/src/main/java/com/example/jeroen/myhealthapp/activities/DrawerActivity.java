@@ -1,24 +1,19 @@
-package com.example.jeroen.myhealthapp;
+package com.example.jeroen.myhealthapp.activities;
 
 import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
-import com.example.jeroen.myhealthapp.activities.MeasurementListFragment;
+import com.example.jeroen.myhealthapp.R;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
