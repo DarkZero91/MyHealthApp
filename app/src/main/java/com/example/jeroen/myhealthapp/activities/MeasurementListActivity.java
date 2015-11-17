@@ -1,4 +1,4 @@
-package com.example.jeroen.myhealthapp;
+package com.example.jeroen.myhealthapp.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.jeroen.myhealthapp.R;
 import com.example.jeroen.myhealthapp.dao.BloodPressureDao;
 import com.example.jeroen.myhealthapp.dao.Dao;
 import com.example.jeroen.myhealthapp.dao.DaoFactory;
