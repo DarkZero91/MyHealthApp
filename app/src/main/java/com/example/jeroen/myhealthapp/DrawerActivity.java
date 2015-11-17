@@ -64,6 +64,10 @@ public class DrawerActivity extends AppCompatActivity
                 break;
         }
 
+        Bundle bundle = new Bundle();
+        bundle.putInt("measurement_type", position);
+        fragment.setArguments(bundle);
+
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()

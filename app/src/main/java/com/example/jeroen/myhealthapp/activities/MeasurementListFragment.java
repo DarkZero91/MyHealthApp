@@ -29,19 +29,20 @@ public class MeasurementListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_measurement_list, container, false);
-//        int type = savedInstanceState.getInt("measurement_type", DaoFactory.PULSE);
-//
-//        //populateDb(null);
-//
-//        Dao dao = DaoFactory.getDao(type, null);
-//        dao.open();
-//
-//        List<Measurement> values = dao.getAll();
-//        ArrayAdapter<Measurement> adapter = new ArrayAdapter<Measurement>(null, R.layout.measurement_list_row, R.id.text1, values);
-//
-//        ListView list = (ListView) container.findViewById(R.id.list);
-//        list.setAdapter(adapter);
-//        dao.close();
+        int type = getArguments().getInt("measurement_type", DaoFactory.ECG);
+
+        //populateDb(null);
+
+        Dao dao = DaoFactory.getDao(type, getActivity());
+        dao.open();
+
+        List<Measurement> values = dao.getAll();
+        ArrayAdapter<Measurement> adapter = new ArrayAdapter<>(
+                getActivity(), R.layout.measurement_list_row, R.id.text1, values);
+
+        ListView list = (ListView) view.findViewById(R.id.list);
+        list.setAdapter(adapter);
+        dao.close();
 
         return view;
     }
