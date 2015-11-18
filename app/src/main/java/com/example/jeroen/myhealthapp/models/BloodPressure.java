@@ -44,5 +44,5 @@ public class BloodPressure implements Measurement {
     }
 
     @Override
-    public String toString() { return "(" + over + "/" + under + ") " + timestamp; }
+    public String toString() { return over + "/" + under; }
 }

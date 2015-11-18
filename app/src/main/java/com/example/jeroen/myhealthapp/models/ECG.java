@@ -35,7 +35,5 @@ public class ECG implements Measurement {
     public String getTimestamp() { return timestamp; }
 
     @Override
-    public String toString() {
-        return "(" + id + ") " + timestamp;
-    }
+    public String toString() { return id + ""; }
 }

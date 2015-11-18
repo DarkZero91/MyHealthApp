@@ -20,6 +20,7 @@ import com.example.jeroen.myhealthapp.models.BloodPressure;
 import com.example.jeroen.myhealthapp.models.ECG;
 import com.example.jeroen.myhealthapp.models.Measurement;
 import com.example.jeroen.myhealthapp.models.Pulse;
+import com.example.jeroen.myhealthapp.util.MeasurementListAdapter;
 
 import java.util.List;
 
@@ -37,8 +38,9 @@ public class MeasurementListFragment extends Fragment {
         dao.open();
 
         List<Measurement> values = dao.getAll();
-        ArrayAdapter<Measurement> adapter = new ArrayAdapter<>(
-                getActivity(), R.layout.measurement_list_row, R.id.text1, values);
+
+        MeasurementListAdapter adapter = new MeasurementListAdapter(
+            getActivity(), R.layout.measurement_list_row, values);
 
         ListView list = (ListView) view.findViewById(R.id.list);
         list.setAdapter(adapter);

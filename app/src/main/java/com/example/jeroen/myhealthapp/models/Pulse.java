@@ -20,5 +20,5 @@ public class Pulse implements Measurement {
     public String getTimestamp() { return timestamp; }
 
     @Override
-    public String toString() { return "(" + heartRate + " bpm) " + timestamp; }
+    public String toString() { return heartRate + " bpm"; }
 }
