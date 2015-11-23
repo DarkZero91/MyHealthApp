@@ -3,12 +3,15 @@ package com.example.jeroen.myhealthapp.activities;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.support.v4.app.Fragment;
+import android.widget.Toast;
 
 import com.example.jeroen.myhealthapp.R;
 import com.example.jeroen.myhealthapp.dao.BloodPressureDao;
@@ -20,11 +23,18 @@ import com.example.jeroen.myhealthapp.models.BloodPressure;
 import com.example.jeroen.myhealthapp.models.ECG;
 import com.example.jeroen.myhealthapp.models.Measurement;
 import com.example.jeroen.myhealthapp.models.Pulse;
+import com.example.jeroen.myhealthapp.network.MyHealthApi;
 import com.example.jeroen.myhealthapp.util.MeasurementListAdapter;
+import com.example.jeroen.myhealthapp.util.RestCallHelper;
 
 import java.util.List;
 
-public class MeasurementListFragment extends Fragment {
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Response;
+import retrofit.Retrofit;
+
+public class MeasurementListFragment extends Fragment implements Callback<Void> {
 
     @Nullable
     @Override
@@ -32,7 +42,10 @@ public class MeasurementListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_measurement_list, container, false);
         int type = getArguments().getInt("measurement_type", DaoFactory.ECG);
 
+        //getActivity().requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
         //populateDb(null);
+        //sendMeasurement();
 
         Dao dao = DaoFactory.getDao(type, getActivity());
         dao.open();
@@ -81,5 +94,25 @@ public class MeasurementListFragment extends Fragment {
         dao.save(pressure);
 
         dao.close();
+    }
+
+    private void sendMeasurement() {
+        Pulse p = new Pulse();
+        p.setHeartRate(90);
+        p.setId(16);
+
+        MyHealthApi api = RestCallHelper.getApi("http://jeroenhoekstra.no-ip.org:5000", MyHealthApi.class);
+        Call<Void> call = api.pulseAdd(p);
+        call.enqueue(this);
+    }
+
+    @Override
+    public void onResponse(Response<Void> response, Retrofit retrofit) {
+        Toast.makeText(getActivity(),getString(R.string.send_success), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onFailure(Throwable t) {
+        Toast.makeText(getActivity(), getString(R.string.send_failure), Toast.LENGTH_SHORT).show();
     }
 }

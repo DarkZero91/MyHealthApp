@@ -1,12 +1,14 @@
 package com.example.jeroen.myhealthapp.models;
 
 import com.example.jeroen.myhealthapp.util.Date;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Jeroen on 16-11-2015.
  */
 public class Pulse implements Measurement {
     private int id;
+    @SerializedName("heartrate")
     private int heartRate;
     private String timestamp = Date.getTimestamp();
 
