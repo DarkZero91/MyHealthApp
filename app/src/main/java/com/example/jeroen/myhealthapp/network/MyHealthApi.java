@@ -17,8 +17,8 @@ public interface MyHealthApi {
     @POST("/measurement/pulse")
     Call<Void> pulseAdd(@Body Pulse pulse);
 
-    @FormUrlEncoded @POST("/measurement/ecg")
-    Call<Void> ecgAdd(@Field("data") ECG ecg);
+    @POST("/measurement/ecg")
+    Call<Void> ecgAdd(@Body ECG ecg);
 
     @POST("/measurement/bloodpressure")
     Call<Void> bloodPressureAdd(@Body BloodPressure bloodPressure);

@@ -97,14 +97,13 @@ public class MeasurementListFragment extends Fragment implements Callback<Void> 
     }
 
     private void sendMeasurement() {
-        BloodPressure b = new BloodPressure();
-        b.setId(19);
-        b.setUnder(89);
-        b.setOver(109);
-        b.setTimestamp("23-11-2015 16:41");
+        ECG e = new ECG();
+        e.setId(21);
+        e.addData(new int[]{100, 1000, 200, 300, 150});
+        e.setTimestamp("23-11-2015 16:46");
 
         MyHealthApi api = RestCallHelper.getApi("http://jeroenhoekstra.no-ip.org:5000", MyHealthApi.class);
-        Call<Void> call = api.bloodPressureAdd(b);
+        Call<Void> call = api.ecgAdd(e);
         call.enqueue(this);
     }
 
