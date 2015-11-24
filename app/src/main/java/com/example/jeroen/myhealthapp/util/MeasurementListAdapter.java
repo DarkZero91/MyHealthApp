@@ -14,6 +14,7 @@ import com.example.jeroen.myhealthapp.models.BloodPressure;
 import com.example.jeroen.myhealthapp.models.ECG;
 import com.example.jeroen.myhealthapp.models.Measurement;
 import com.example.jeroen.myhealthapp.models.Pulse;
+import com.example.jeroen.myhealthapp.network.MyHealthService;
 
 import java.util.List;
 
@@ -23,9 +24,9 @@ import java.util.List;
 public class MeasurementListAdapter extends ArrayAdapter<Measurement> {
     private OnMeasurementClickListener listener;
 
-    public MeasurementListAdapter(Context context, int resource, List<Measurement> items) {
+    public MeasurementListAdapter(Context context, int resource, List<Measurement> items, MyHealthService service) {
         super(context, resource, items);
-        listener = new OnMeasurementClickListener(items);
+        listener = new OnMeasurementClickListener(items, service);
     }
 
     @Override

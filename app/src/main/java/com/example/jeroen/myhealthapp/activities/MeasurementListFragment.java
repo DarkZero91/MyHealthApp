@@ -20,13 +20,11 @@ import com.example.jeroen.myhealthapp.models.BloodPressure;
 import com.example.jeroen.myhealthapp.models.ECG;
 import com.example.jeroen.myhealthapp.models.Measurement;
 import com.example.jeroen.myhealthapp.models.Pulse;
-import com.example.jeroen.myhealthapp.network.MyHealthApi;
+import com.example.jeroen.myhealthapp.network.MyHealthService;
 import com.example.jeroen.myhealthapp.util.MeasurementListAdapter;
-import com.example.jeroen.myhealthapp.util.RestCallHelper;
 
 import java.util.List;
 
-import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
@@ -40,18 +38,16 @@ public class MeasurementListFragment extends Fragment implements Callback<Void> 
         View view = inflater.inflate(R.layout.fragment_measurement_list, container, false);
         int type = getArguments().getInt("measurement_type", DaoFactory.ECG);
 
-        //getActivity().requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-
         //populateDb(null);
-        //sendMeasurement();
 
         Dao dao = DaoFactory.getDao(type, getActivity());
         dao.open();
 
         mMeasurements = dao.getAll();
+        MyHealthService service = new MyHealthService(this);
 
         MeasurementListAdapter adapter = new MeasurementListAdapter(
-            getActivity(), R.layout.measurement_list_row, mMeasurements);
+            getActivity(), R.layout.measurement_list_row, mMeasurements, service);
 
         ListView list = (ListView) view.findViewById(R.id.list);
         list.setAdapter(adapter);
@@ -92,17 +88,6 @@ public class MeasurementListFragment extends Fragment implements Callback<Void> 
         dao.save(pressure);
 
         dao.close();
-    }
-
-    private void sendMeasurement() {
-        ECG e = new ECG();
-        e.setId(21);
-        e.addData(new int[]{100, 1000, 200, 300, 150});
-        e.setTimestamp("23-11-2015 16:46");
-
-        MyHealthApi api = RestCallHelper.getApi("http://jeroenhoekstra.no-ip.org:5000", MyHealthApi.class);
-        Call<Void> call = api.ecgAdd(e);
-        call.enqueue(this);
     }
 
     @Override
