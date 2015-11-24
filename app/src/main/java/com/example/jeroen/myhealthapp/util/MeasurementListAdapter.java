@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,12 +21,11 @@ import java.util.List;
  * Created by Jeroen on 17-11-2015.
  */
 public class MeasurementListAdapter extends ArrayAdapter<Measurement> {
-    public MeasurementListAdapter(Context context, int textViewResourceId) {
-        super(context, textViewResourceId);
-    }
+    private OnMeasurementClickListener listener;
 
     public MeasurementListAdapter(Context context, int resource, List<Measurement> items) {
         super(context, resource, items);
+        listener = new OnMeasurementClickListener(items);
     }
 
     @Override
@@ -44,17 +44,13 @@ public class MeasurementListAdapter extends ArrayAdapter<Measurement> {
             TextView label = (TextView) convertView.findViewById(R.id.text_label);
             TextView date = (TextView) convertView.findViewById(R.id.text_date);
 
-            if (img != null) {
-                setImage(img, m);
-            }
+            if (img != null) { setImage(img, m); }
+            if (label != null) { label.setText(m.toString()); }
+            if (date != null) { date.setText("" + m.getTimestamp()); }
 
-            if (label != null) {
-                label.setText(m.toString());
-            }
-
-            if (date != null) {
-                date.setText("" + m.getTimestamp());
-            }
+            ImageButton button = (ImageButton) convertView.findViewById(R.id.sync_btn);
+            button.setTag(position);
+            button.setOnClickListener(listener);
         }
 
         return convertView;

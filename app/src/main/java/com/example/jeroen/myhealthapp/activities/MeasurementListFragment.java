@@ -3,12 +3,9 @@ package com.example.jeroen.myhealthapp.activities;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
@@ -35,6 +32,7 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 public class MeasurementListFragment extends Fragment implements Callback<Void> {
+    List<Measurement> mMeasurements;
 
     @Nullable
     @Override
@@ -50,10 +48,10 @@ public class MeasurementListFragment extends Fragment implements Callback<Void> 
         Dao dao = DaoFactory.getDao(type, getActivity());
         dao.open();
 
-        List<Measurement> values = dao.getAll();
+        mMeasurements = dao.getAll();
 
         MeasurementListAdapter adapter = new MeasurementListAdapter(
-            getActivity(), R.layout.measurement_list_row, values);
+            getActivity(), R.layout.measurement_list_row, mMeasurements);
 
         ListView list = (ListView) view.findViewById(R.id.list);
         list.setAdapter(adapter);
