@@ -1,6 +1,7 @@
 package com.example.jeroen.myhealthapp.models;
 
 import com.example.jeroen.myhealthapp.util.Date;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 public class ECG implements Measurement {
     private int id;
     private List<Integer> data;
+    @SerializedName("created")
     private String timestamp = Date.getTimestamp();
 
     public ECG() { data = new ArrayList<Integer>(); }

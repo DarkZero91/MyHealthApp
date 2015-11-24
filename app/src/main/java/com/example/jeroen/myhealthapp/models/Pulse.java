@@ -10,6 +10,7 @@ public class Pulse implements Measurement {
     private int id;
     @SerializedName("heartrate")
     private int heartRate;
+    @SerializedName("created")
     private String timestamp = Date.getTimestamp();
 
     public void setId(int id) { this.id = id; }

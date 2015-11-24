@@ -1,6 +1,7 @@
 package com.example.jeroen.myhealthapp.models;
 
 import com.example.jeroen.myhealthapp.util.Date;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Jeroen on 16-11-2015.
@@ -9,6 +10,7 @@ public class BloodPressure implements Measurement {
     private int id;
     private int over;
     private int under;
+    @SerializedName("created")
     private String timestamp = Date.getTimestamp();
 
     public int getId() {
