@@ -65,7 +65,7 @@ public class MeasurementListFragment extends Fragment implements Callback<Void> 
         dao.open();
 
         ECG ecg = new ECG();
-        int[] data = {100, 1000, 200, 300, 150};
+        int[] data = {0,0,0,2,3,1,0,0,0,-4,25,-8,0,0,0,0,3,4,4,2,0,0,0,0,0,0};
         for(int i = 0; i < 10; i++) { ecg.addData(data); }
         dao.save(ecg);
 
