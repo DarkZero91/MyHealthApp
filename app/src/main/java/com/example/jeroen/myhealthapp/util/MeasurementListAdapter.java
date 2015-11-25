@@ -18,15 +18,18 @@ import com.example.jeroen.myhealthapp.network.MyHealthService;
 
 import java.util.List;
 
+import retrofit.Callback;
+
 /**
  * Created by Jeroen on 17-11-2015.
  */
 public class MeasurementListAdapter extends ArrayAdapter<Measurement> {
     private OnMeasurementClickListener listener;
 
-    public MeasurementListAdapter(Context context, int resource, List<Measurement> items, MyHealthService service) {
+    public MeasurementListAdapter(Context context, int resource, List<Measurement> items,
+                                  MyHealthService service, Callback<Void> handler) {
         super(context, resource, items);
-        listener = new OnMeasurementClickListener(items, service);
+        listener = new OnMeasurementClickListener(items, service, handler);
     }
 
     @Override

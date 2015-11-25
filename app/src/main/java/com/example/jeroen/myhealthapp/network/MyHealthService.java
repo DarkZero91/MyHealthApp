@@ -14,24 +14,22 @@ import retrofit.Callback;
 public class MyHealthService {
     public static final String BASE_URL = "http://jeroenhoekstra.no-ip.org:5000";
     private MyHealthApi api;
-    private Callback<Void> handler;
 
-    public MyHealthService(Callback<Void> handler) {
+    public MyHealthService() {
         api = RestCallHelper.getApi(BASE_URL, MyHealthApi.class);
-        this.handler = handler;
     }
 
-    public void pulseAdd(Pulse pulse) {
+    public void pulseAdd(Pulse pulse, Callback<Void> handler) {
         Call<Void> call = api.pulseAdd(pulse);
         call.enqueue(handler);
     }
 
-    public void ecgAdd(ECG ecg) {
+    public void ecgAdd(ECG ecg, Callback<Void> handler) {
         Call<Void> call = api.ecgAdd(ecg);
         call.enqueue(handler);
     }
 
-    public void bloodPressureAdd(BloodPressure bloodPressure) {
+    public void bloodPressureAdd(BloodPressure bloodPressure, Callback<Void> handler) {
         Call<Void> call = api.bloodPressureAdd(bloodPressure);
         call.enqueue(handler);
     }

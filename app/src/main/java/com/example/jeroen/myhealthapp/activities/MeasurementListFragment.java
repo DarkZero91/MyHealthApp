@@ -42,10 +42,10 @@ public class MeasurementListFragment extends Fragment implements Callback<Void> 
         dao.open();
 
         mMeasurements = dao.getAll();
-        MyHealthService service = new MyHealthService(this);
+        MyHealthService service = new MyHealthService();
 
         MeasurementListAdapter adapter = new MeasurementListAdapter(
-            getActivity(), R.layout.measurement_list_row, mMeasurements, service);
+            getActivity(), R.layout.measurement_list_row, mMeasurements, service, this);
 
         ListView list = (ListView) view.findViewById(R.id.list);
         list.setAdapter(adapter);

@@ -11,16 +11,20 @@ import com.example.jeroen.myhealthapp.network.MyHealthService;
 
 import java.util.List;
 
+import retrofit.Callback;
+
 /**
  * Created by Jeroen on 24-11-2015.
  */
 public class OnMeasurementClickListener implements AdapterView.OnClickListener {
     private List<Measurement> measurements;
     private MyHealthService service;
+    private Callback<Void> handler;
 
-    public OnMeasurementClickListener(List<Measurement> measurements, MyHealthService service) {
+    public OnMeasurementClickListener(List<Measurement> measurements, MyHealthService service, Callback<Void> handler) {
         this.measurements = measurements;
         this.service = service;
+        this.handler = handler;
     }
 
     @Override
@@ -29,11 +33,11 @@ public class OnMeasurementClickListener implements AdapterView.OnClickListener {
         Measurement measurement = measurements.get(position);
 
         if(measurement instanceof Pulse) {
-            service.pulseAdd((Pulse) measurement);
+            service.pulseAdd((Pulse) measurement, handler);
         } else if(measurement instanceof ECG) {
-            service.ecgAdd((ECG) measurement);
+            service.ecgAdd((ECG) measurement, handler);
         } else if(measurement instanceof BloodPressure) {
-            service.bloodPressureAdd((BloodPressure) measurement);
+            service.bloodPressureAdd((BloodPressure) measurement, handler);
         }
     }
 }
