@@ -12,13 +12,13 @@ import com.example.jeroen.myhealthapp.models.ECG;
 public class ECGDao extends Dao<ECG, ECGDao> {
     protected static ECGDao singleton;
     protected static char DATA_SEPERATOR = ',';
-    private static int VERSION = 1;
+    private static int VERSION = 2;
 
     private ECGDao(Context context) {
         super(context, "ecg", VERSION);
         TABLE = "ecg";
-        COLUMNS = new String[]{"data", "timestamp"};
-        COLUMN_TYPES = new String[]{"TEXT NOT NULL", "TEXT NOT NULL"};
+        COLUMNS = new String[]{"data", "timestamp", "synchonized"};
+        COLUMN_TYPES = new String[]{"TEXT NOT NULL", "TEXT NOT NULL", "INTEGER NOT NULL"};
     }
 
     public static ECGDao getDao(Context context) {
@@ -38,6 +38,7 @@ public class ECGDao extends Dao<ECG, ECGDao> {
 
         values.put("data", data);
         values.put("timestamp", instance.getTimestamp());
+        values.put("synchronized", instance.isSynchronized());
 
         database.insert(TABLE, null, values);
     }
@@ -57,6 +58,7 @@ public class ECGDao extends Dao<ECG, ECGDao> {
         }
 
         ecg.setTimestamp(cursor.getString(cursor.getColumnIndexOrThrow("timestamp")));
+        ecg.setSynchronized(Boolean.getBoolean("" + cursor.getLong(cursor.getColumnIndexOrThrow("synchronized"))));
 
         return ecg;
     }

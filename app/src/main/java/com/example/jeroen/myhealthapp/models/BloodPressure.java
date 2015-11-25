@@ -12,6 +12,7 @@ public class BloodPressure implements Measurement {
     private int under;
     @SerializedName("created")
     private String timestamp = Date.getTimestamp();
+    private boolean isSynchronized;
 
     public int getId() {
         return id;
@@ -44,6 +45,10 @@ public class BloodPressure implements Measurement {
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
+
+    public boolean isSynchronized() { return isSynchronized; }
+
+    public void setSynchronized(boolean isSynchronized) { this.isSynchronized = isSynchronized; }
 
     @Override
     public String toString() { return over + "/" + under; }

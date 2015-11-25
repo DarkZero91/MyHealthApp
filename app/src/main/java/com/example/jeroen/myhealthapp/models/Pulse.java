@@ -12,6 +12,7 @@ public class Pulse implements Measurement {
     private int heartRate;
     @SerializedName("created")
     private String timestamp = Date.getTimestamp();
+    private boolean isSynchronized;
 
     public void setId(int id) { this.id = id; }
     public int getId() { return id; }
@@ -21,6 +22,9 @@ public class Pulse implements Measurement {
 
     public void setTimestamp(String timestamp) { this.timestamp = timestamp; }
     public String getTimestamp() { return timestamp; }
+
+    public boolean isSynchronized() { return isSynchronized; }
+    public void setSynchronized(boolean isSynchronized) { this.isSynchronized = isSynchronized; }
 
     @Override
     public String toString() { return heartRate + " bpm"; }

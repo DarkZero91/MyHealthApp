@@ -11,13 +11,13 @@ import com.example.jeroen.myhealthapp.models.Pulse;
  */
 public class PulseDao extends Dao<Pulse, PulseDao> {
     private static PulseDao singleton;
-    private static int VERSION = 1;
+    private static int VERSION = 2;
 
     private PulseDao(Context context) {
         super(context, "pulse", VERSION);
         TABLE = "pulse";
-        COLUMNS = new String[]{"heartRate", "timestamp"};
-        COLUMN_TYPES = new String[]{"INTEGER NOT NULL", "TEXT NOT NULL"};
+        COLUMNS = new String[]{"heartRate", "timestamp", "synchronized"};
+        COLUMN_TYPES = new String[]{"INTEGER NOT NULL", "TEXT NOT NULL", "INTEGER NOT NULL"};
     }
 
     public static PulseDao getDao(Context context) {
@@ -31,6 +31,7 @@ public class PulseDao extends Dao<Pulse, PulseDao> {
 
         values.put("heartRate", instance.getHeartRate());
         values.put("timestamp", instance.getTimestamp());
+        values.put("synchonized", instance.isSynchronized());
 
         database.insert(TABLE, null, values);
     }
@@ -45,6 +46,7 @@ public class PulseDao extends Dao<Pulse, PulseDao> {
         pulse.setId((int) cursor.getLong(0));
         pulse.setHeartRate((int) cursor.getLong(cursor.getColumnIndexOrThrow("heartRate")));
         pulse.setTimestamp(cursor.getString(cursor.getColumnIndexOrThrow("timestamp")));
+        pulse.setSynchronized(Boolean.getBoolean("" + cursor.getLong(cursor.getColumnIndexOrThrow("synchronized"))));
 
         return pulse;
     }

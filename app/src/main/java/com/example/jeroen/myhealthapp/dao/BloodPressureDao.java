@@ -11,13 +11,13 @@ import com.example.jeroen.myhealthapp.models.BloodPressure;
  */
 public class BloodPressureDao extends Dao<BloodPressure, BloodPressureDao> {
     private static BloodPressureDao singleton;
-    private static int VERSION = 1;
+    private static int VERSION = 2;
 
     private BloodPressureDao(Context context) {
         super(context, "bloodpressure", VERSION);
         TABLE = "bloodpressure";
-        COLUMNS = new String[]{"over", "under", "timestamp"};
-        COLUMN_TYPES = new String[]{"INTEGER NOT NULL", "INTEGER NOT NULL", "TEXT NOT NULL"};
+        COLUMNS = new String[]{"over", "under", "timestamp", "synchronized"};
+        COLUMN_TYPES = new String[]{"INTEGER NOT NULL", "INTEGER NOT NULL", "TEXT NOT NULL", "INTEGER NOT NULL"};
     }
 
     public static BloodPressureDao getDao(Context context) {
@@ -32,6 +32,7 @@ public class BloodPressureDao extends Dao<BloodPressure, BloodPressureDao> {
         values.put("over", instance.getOver());
         values.put("under", instance.getUnder());
         values.put("timestamp", instance.getTimestamp());
+        values.put("synchronized", instance.isSynchronized());
 
         database.insert(TABLE, null, values);
     }
@@ -47,6 +48,7 @@ public class BloodPressureDao extends Dao<BloodPressure, BloodPressureDao> {
         pressure.setOver((int) cursor.getLong(cursor.getColumnIndexOrThrow("over")));
         pressure.setUnder((int) cursor.getLong(cursor.getColumnIndexOrThrow("under")));
         pressure.setTimestamp(cursor.getString(cursor.getColumnIndexOrThrow("timestamp")));
+        pressure.setSynchronized(Boolean.valueOf("" + cursor.getLong(cursor.getColumnIndexOrThrow("synchonized"))));
 
         return pressure;
     }

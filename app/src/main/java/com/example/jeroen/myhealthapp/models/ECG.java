@@ -14,6 +14,7 @@ public class ECG implements Measurement {
     private List<Integer> data;
     @SerializedName("created")
     private String timestamp = Date.getTimestamp();
+    private boolean isSynchronized;
 
     public ECG() { data = new ArrayList<Integer>(); }
 
@@ -35,6 +36,9 @@ public class ECG implements Measurement {
 
     public void setTimestamp(String timestamp) { this.timestamp = timestamp; }
     public String getTimestamp() { return timestamp; }
+
+    public boolean isSynchronized() { return isSynchronized; }
+    public void setSynchronized(boolean isSynchronized) { this.isSynchronized = isSynchronized; }
 
     @Override
     public String toString() { return id + ""; }
