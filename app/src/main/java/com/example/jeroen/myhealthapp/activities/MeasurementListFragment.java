@@ -38,8 +38,6 @@ public class MeasurementListFragment extends Fragment implements Callback<Void> 
         View view = inflater.inflate(R.layout.fragment_measurement_list, container, false);
         int type = getArguments().getInt("measurement_type", DaoFactory.ECG);
 
-        //populateDb(null);
-
         Dao dao = DaoFactory.getDao(type, getActivity());
         dao.open();
 
@@ -53,10 +51,15 @@ public class MeasurementListFragment extends Fragment implements Callback<Void> 
         list.setAdapter(adapter);
         dao.close();
 
+        populateDb(20);
+
         return view;
     }
 
-    private void populateDb(Context context) {
+    private void populateDb(int amount) {
+        if(mMeasurements.size() > 0) return;
+        Context context = getActivity();
+
         // ECG Data
         Dao dao = ECGDao.getDao(context);
         dao.open();
@@ -88,6 +91,8 @@ public class MeasurementListFragment extends Fragment implements Callback<Void> 
         dao.save(pressure);
 
         dao.close();
+
+        if(--amount > 0) { populateDb(amount); }
     }
 
     @Override
