@@ -11,7 +11,7 @@ import com.example.jeroen.myhealthapp.models.BloodPressure;
  */
 public class BloodPressureDao extends Dao<BloodPressure, BloodPressureDao> {
     private static BloodPressureDao singleton;
-    private static int VERSION = 2;
+    private static int VERSION = 1;
 
     private BloodPressureDao(Context context) {
         super(context, "bloodpressure", VERSION);
@@ -48,7 +48,7 @@ public class BloodPressureDao extends Dao<BloodPressure, BloodPressureDao> {
         pressure.setOver((int) cursor.getLong(cursor.getColumnIndexOrThrow("over")));
         pressure.setUnder((int) cursor.getLong(cursor.getColumnIndexOrThrow("under")));
         pressure.setTimestamp(cursor.getString(cursor.getColumnIndexOrThrow("timestamp")));
-        pressure.setSynchronized(Boolean.valueOf("" + cursor.getLong(cursor.getColumnIndexOrThrow("synchonized"))));
+        pressure.setSynchronized(Boolean.valueOf("" + cursor.getLong(cursor.getColumnIndexOrThrow("synchronized"))));
 
         return pressure;
     }

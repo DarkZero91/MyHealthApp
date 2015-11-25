@@ -11,7 +11,7 @@ import com.example.jeroen.myhealthapp.models.Pulse;
  */
 public class PulseDao extends Dao<Pulse, PulseDao> {
     private static PulseDao singleton;
-    private static int VERSION = 2;
+    private static int VERSION = 1;
 
     private PulseDao(Context context) {
         super(context, "pulse", VERSION);
@@ -31,7 +31,7 @@ public class PulseDao extends Dao<Pulse, PulseDao> {
 
         values.put("heartRate", instance.getHeartRate());
         values.put("timestamp", instance.getTimestamp());
-        values.put("synchonized", instance.isSynchronized());
+        values.put("synchronized", instance.isSynchronized());
 
         database.insert(TABLE, null, values);
     }

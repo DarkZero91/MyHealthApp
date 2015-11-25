@@ -12,12 +12,12 @@ import com.example.jeroen.myhealthapp.models.ECG;
 public class ECGDao extends Dao<ECG, ECGDao> {
     protected static ECGDao singleton;
     protected static char DATA_SEPERATOR = ',';
-    private static int VERSION = 2;
+    private static int VERSION = 1;
 
     private ECGDao(Context context) {
         super(context, "ecg", VERSION);
         TABLE = "ecg";
-        COLUMNS = new String[]{"data", "timestamp", "synchonized"};
+        COLUMNS = new String[]{"data", "timestamp", "synchronized"};
         COLUMN_TYPES = new String[]{"TEXT NOT NULL", "TEXT NOT NULL", "INTEGER NOT NULL"};
     }
 
