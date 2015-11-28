@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.support.v4.app.Fragment;
-import android.widget.Toast;
 
 import com.example.jeroen.myhealthapp.R;
 import com.example.jeroen.myhealthapp.dao.BloodPressureDao;
@@ -29,7 +28,7 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class MeasurementListFragment extends Fragment implements Callback<Void> {
+public class MeasurementListFragment extends Fragment {
     List<Measurement> mMeasurements;
 
     @Nullable
@@ -45,11 +44,10 @@ public class MeasurementListFragment extends Fragment implements Callback<Void> 
         MyHealthService service = new MyHealthService();
 
         MeasurementListAdapter adapter = new MeasurementListAdapter(
-            getActivity(), R.layout.measurement_list_row, mMeasurements, service, this);
+            getActivity(), R.layout.measurement_list_row, mMeasurements, service);
 
         ListView list = (ListView) view.findViewById(R.id.list);
         list.setAdapter(adapter);
-        dao.close();
 
         populateDb(20);
 
@@ -93,15 +91,5 @@ public class MeasurementListFragment extends Fragment implements Callback<Void> 
         dao.close();
 
         if(--amount > 0) { populateDb(amount); }
-    }
-
-    @Override
-    public void onResponse(Response<Void> response, Retrofit retrofit) {
-        Toast.makeText(getActivity(),getString(R.string.send_success), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onFailure(Throwable t) {
-        Toast.makeText(getActivity(), getString(R.string.send_failure), Toast.LENGTH_SHORT).show();
     }
 }

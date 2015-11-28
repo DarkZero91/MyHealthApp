@@ -27,17 +27,24 @@ public class PulseDao extends Dao<Pulse, PulseDao> {
 
     @Override
     public void save(Pulse instance) {
+        database.insert(TABLE, null, serialize(instance));
+    }
+
+    @Override
+    public void update(Pulse instance) {
+        database.update(TABLE, serialize(instance), "id = " + instance.getId(), null);
+    }
+
+    @Override
+    public ContentValues serialize(Pulse instance) {
         ContentValues values = new ContentValues();
 
         values.put("heartRate", instance.getHeartRate());
         values.put("timestamp", instance.getTimestamp());
-        values.put("synchronized", instance.isSynchronized());
+        values.put("synchronized", instance.isSynchronized() ? 1 : 0);
 
-        database.insert(TABLE, null, values);
+        return values;
     }
-
-    @Override
-    public void update(Pulse instance) {}
 
     @Override
     public Pulse deserialize(Cursor cursor) {
@@ -46,7 +53,8 @@ public class PulseDao extends Dao<Pulse, PulseDao> {
         pulse.setId((int) cursor.getLong(0));
         pulse.setHeartRate((int) cursor.getLong(cursor.getColumnIndexOrThrow("heartRate")));
         pulse.setTimestamp(cursor.getString(cursor.getColumnIndexOrThrow("timestamp")));
-        pulse.setSynchronized(Boolean.getBoolean("" + cursor.getLong(cursor.getColumnIndexOrThrow("synchronized"))));
+        int sync = (int) cursor.getLong(cursor.getColumnIndexOrThrow("synchronized"));
+        pulse.setSynchronized(sync == 1 ? true : false);
 
         return pulse;
     }

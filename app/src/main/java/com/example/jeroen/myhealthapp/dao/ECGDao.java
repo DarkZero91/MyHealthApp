@@ -3,6 +3,7 @@ package com.example.jeroen.myhealthapp.dao;
 import android.content.Context;
 import android.database.Cursor;
 import android.content.ContentValues;
+import android.util.Log;
 
 import com.example.jeroen.myhealthapp.models.ECG;
 
@@ -28,6 +29,16 @@ public class ECGDao extends Dao<ECG, ECGDao> {
 
     @Override
     public void save(ECG instance) {
+        database.insert(TABLE, null, serialize(instance));
+    }
+
+    @Override
+    public void update(ECG instance) {
+        database.update(TABLE, serialize(instance), "id = " + instance.getId(), null);
+    }
+
+    @Override
+    public ContentValues serialize(ECG instance) {
         ContentValues values = new ContentValues();
 
         String data = "";
@@ -38,13 +49,10 @@ public class ECGDao extends Dao<ECG, ECGDao> {
 
         values.put("data", data);
         values.put("timestamp", instance.getTimestamp());
-        values.put("synchronized", instance.isSynchronized());
+        values.put("synchronized", instance.isSynchronized() ? 1 : 0);
 
-        database.insert(TABLE, null, values);
+        return values;
     }
-
-    @Override
-    public void update(ECG instance) {}
 
     @Override
     public ECG deserialize(Cursor cursor) {
@@ -58,7 +66,8 @@ public class ECGDao extends Dao<ECG, ECGDao> {
         }
 
         ecg.setTimestamp(cursor.getString(cursor.getColumnIndexOrThrow("timestamp")));
-        ecg.setSynchronized(Boolean.getBoolean("" + cursor.getLong(cursor.getColumnIndexOrThrow("synchronized"))));
+        int sync = (int) cursor.getLong(cursor.getColumnIndexOrThrow("synchronized"));
+        ecg.setSynchronized(sync == 1 ? true : false);
 
         return ecg;
     }

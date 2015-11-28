@@ -27,18 +27,25 @@ public class BloodPressureDao extends Dao<BloodPressure, BloodPressureDao> {
 
     @Override
     public void save(BloodPressure instance) {
+        database.insert(TABLE, null, serialize(instance));
+    }
+
+    @Override
+    public void update(BloodPressure instance) {
+        database.update(TABLE, serialize(instance), "id = " + instance.getId(), null);
+    }
+
+    @Override
+    public ContentValues serialize(BloodPressure instance) {
         ContentValues values = new ContentValues();
 
         values.put("over", instance.getOver());
         values.put("under", instance.getUnder());
         values.put("timestamp", instance.getTimestamp());
-        values.put("synchronized", instance.isSynchronized());
+        values.put("synchronized", instance.isSynchronized() ? 1 : 0);
 
-        database.insert(TABLE, null, values);
+        return values;
     }
-
-    @Override
-    public void update(BloodPressure instance) {}
 
     @Override
     public BloodPressure deserialize(Cursor cursor) {
@@ -48,7 +55,8 @@ public class BloodPressureDao extends Dao<BloodPressure, BloodPressureDao> {
         pressure.setOver((int) cursor.getLong(cursor.getColumnIndexOrThrow("over")));
         pressure.setUnder((int) cursor.getLong(cursor.getColumnIndexOrThrow("under")));
         pressure.setTimestamp(cursor.getString(cursor.getColumnIndexOrThrow("timestamp")));
-        pressure.setSynchronized(Boolean.valueOf("" + cursor.getLong(cursor.getColumnIndexOrThrow("synchronized"))));
+        int sync = (int) cursor.getLong(cursor.getColumnIndexOrThrow("synchronized"));
+        pressure.setSynchronized(sync == 1 ? true : false);
 
         return pressure;
     }

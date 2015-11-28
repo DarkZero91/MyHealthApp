@@ -1,6 +1,7 @@
 package com.example.jeroen.myhealthapp.util;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +19,18 @@ import com.example.jeroen.myhealthapp.network.MyHealthService;
 
 import java.util.List;
 
-import retrofit.Callback;
-
 /**
  * Created by Jeroen on 17-11-2015.
  */
 public class MeasurementListAdapter extends ArrayAdapter<Measurement> {
     private OnMeasurementClickListener listener;
+    private Context context;
 
     public MeasurementListAdapter(Context context, int resource, List<Measurement> items,
-                                  MyHealthService service, Callback<Void> handler) {
+                                  MyHealthService service) {
         super(context, resource, items);
-        listener = new OnMeasurementClickListener(items, service, handler);
+        listener = new OnMeasurementClickListener(items, service, context);
+        this.context = context;
     }
 
     @Override
@@ -54,6 +55,13 @@ public class MeasurementListAdapter extends ArrayAdapter<Measurement> {
 
             ImageButton button = (ImageButton) convertView.findViewById(R.id.sync_btn);
             button.setTag(position);
+
+            if(m.isSynchronized()) {
+                button.setColorFilter(ContextCompat.getColor(context, R.color.green_500));
+            } else {
+                button.setColorFilter(ContextCompat.getColor(context, R.color.grey_200));
+            }
+
             button.setOnClickListener(listener);
         }
 

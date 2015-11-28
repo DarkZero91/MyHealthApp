@@ -6,4 +6,5 @@ package com.example.jeroen.myhealthapp.models;
 public interface Measurement {
     public String getTimestamp();
     public boolean isSynchronized();
+    public void setSynchronized(boolean isSynchronized);
 }

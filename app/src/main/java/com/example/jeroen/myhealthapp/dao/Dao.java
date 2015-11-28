@@ -1,5 +1,6 @@
 package com.example.jeroen.myhealthapp.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -26,6 +27,7 @@ public abstract class Dao<T extends Measurement, D> extends SQLiteOpenHelper {
 
     public abstract void save(T instance);
     public abstract void update(T instance);
+    public abstract ContentValues serialize(T instance);
     public abstract T deserialize(Cursor cursor);
 
     public void open() { database = getWritableDatabase(); }

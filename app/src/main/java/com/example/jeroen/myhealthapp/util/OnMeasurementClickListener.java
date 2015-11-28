@@ -1,5 +1,6 @@
 package com.example.jeroen.myhealthapp.util;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -19,18 +20,28 @@ import retrofit.Callback;
 public class OnMeasurementClickListener implements AdapterView.OnClickListener {
     private List<Measurement> measurements;
     private MyHealthService service;
-    private Callback<Void> handler;
+    private Context context;
 
-    public OnMeasurementClickListener(List<Measurement> measurements, MyHealthService service, Callback<Void> handler) {
+    public OnMeasurementClickListener(List<Measurement> measurements, MyHealthService service, Context context) {
         this.measurements = measurements;
         this.service = service;
-        this.handler = handler;
+        this.context = context;
     }
 
     @Override
     public void onClick(View v) {
         int position = (Integer) v.getTag();
         Measurement measurement = measurements.get(position);
+
+        if(measurement.isSynchronized()) {
+            removeMeasurement(measurement);
+        } else {
+            sendMeasurement(measurement, v);
+        }
+    }
+
+    private void sendMeasurement(Measurement measurement, View button) {
+        Callback<Void> handler = new MeasurementSendHandler(context, button, measurement);
 
         if(measurement instanceof Pulse) {
             service.pulseAdd((Pulse) measurement, handler);
@@ -40,4 +51,6 @@ public class OnMeasurementClickListener implements AdapterView.OnClickListener {
             service.bloodPressureAdd((BloodPressure) measurement, handler);
         }
     }
+
+    private void removeMeasurement(Measurement measurement) {}
 }
