@@ -1,4 +1,4 @@
-package com.example.jeroen.myhealthapp.util;
+package com.example.jeroen.myhealthapp.adapters;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -16,6 +16,7 @@ import com.example.jeroen.myhealthapp.models.ECG;
 import com.example.jeroen.myhealthapp.models.Measurement;
 import com.example.jeroen.myhealthapp.models.Pulse;
 import com.example.jeroen.myhealthapp.network.MyHealthService;
+import com.example.jeroen.myhealthapp.listeners.OnMeasurementClickListener;
 
 import java.util.List;
 

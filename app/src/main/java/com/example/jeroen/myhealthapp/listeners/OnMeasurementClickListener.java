@@ -1,9 +1,11 @@
-package com.example.jeroen.myhealthapp.util;
+package com.example.jeroen.myhealthapp.listeners;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 
+import com.example.jeroen.myhealthapp.handlers.MeasurementRemoveHandler;
+import com.example.jeroen.myhealthapp.handlers.MeasurementSendHandler;
 import com.example.jeroen.myhealthapp.models.BloodPressure;
 import com.example.jeroen.myhealthapp.models.ECG;
 import com.example.jeroen.myhealthapp.models.Measurement;
@@ -34,7 +36,7 @@ public class OnMeasurementClickListener implements AdapterView.OnClickListener {
         Measurement measurement = measurements.get(position);
 
         if(measurement.isSynchronized()) {
-            removeMeasurement(measurement);
+            removeMeasurement(measurement, v);
         } else {
             sendMeasurement(measurement, v);
         }
@@ -52,5 +54,15 @@ public class OnMeasurementClickListener implements AdapterView.OnClickListener {
         }
     }
 
-    private void removeMeasurement(Measurement measurement) {}
+    private void removeMeasurement(Measurement measurement, View button) {
+        Callback<Void> handler = new MeasurementRemoveHandler(context, button, measurement);
+
+        if(measurement instanceof Pulse) {
+            service.pulseRemove((Pulse) measurement, handler);
+        } else if(measurement instanceof ECG) {
+            service.ecgRemove((ECG) measurement, handler);
+        } else if(measurement instanceof BloodPressure) {
+            service.bloodPressureRemove((BloodPressure) measurement, handler);
+        }
+    }
 }

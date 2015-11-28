@@ -1,4 +1,4 @@
-package com.example.jeroen.myhealthapp.util;
+package com.example.jeroen.myhealthapp.handlers;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -7,12 +7,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.jeroen.myhealthapp.R;
-import com.example.jeroen.myhealthapp.dao.Dao;
-import com.example.jeroen.myhealthapp.dao.DaoFactory;
-import com.example.jeroen.myhealthapp.models.BloodPressure;
-import com.example.jeroen.myhealthapp.models.ECG;
 import com.example.jeroen.myhealthapp.models.Measurement;
-import com.example.jeroen.myhealthapp.models.Pulse;
+import com.example.jeroen.myhealthapp.util.MeasurementHelper;
 
 import retrofit.Callback;
 import retrofit.Response;
@@ -40,25 +36,11 @@ public class MeasurementSendHandler implements Callback<Void> {
         button.setColorFilter(ContextCompat.getColor(context, R.color.green_500));
 
         measurement.setSynchronized(true);
-        updateMeasurement(measurement);
+        MeasurementHelper.updateMeasurement(context, measurement);
     }
 
     @Override
     public void onFailure(Throwable t) {
         Toast.makeText(context, context.getString(R.string.send_failure), Toast.LENGTH_SHORT).show();
-    }
-
-    public void updateMeasurement(Measurement measurement) {
-        Dao dao = null;
-
-        if(measurement instanceof ECG) {
-            dao = DaoFactory.getDao(DaoFactory.ECG, context);
-        } else if(measurement instanceof BloodPressure) {
-            dao = DaoFactory.getDao(DaoFactory.BLOOD_PRESSURE, context);
-        } else if(measurement instanceof Pulse) {
-            dao = DaoFactory.getDao(DaoFactory.PULSE, context);
-        }
-
-        dao.update(measurement);
     }
 }

@@ -33,4 +33,19 @@ public class MyHealthService {
         Call<Void> call = api.bloodPressureAdd(bloodPressure);
         call.enqueue(handler);
     }
+
+    public void pulseRemove(Pulse pulse, Callback<Void> handler) {
+        Call<Void> call = api.pulseRemove(pulse.getId());
+        call.enqueue(handler);
+    }
+
+    public void ecgRemove(ECG ecg, Callback<Void> handler) {
+        Call<Void> call = api.ecgRemove(ecg.getId());
+        call.enqueue(handler);
+    }
+
+    public void bloodPressureRemove(BloodPressure bloodPressure, Callback<Void> handler) {
+        Call<Void> call = api.bloodPressureRemove(bloodPressure.getId());
+        call.enqueue(handler);
+    }
 }

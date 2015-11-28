@@ -20,13 +20,9 @@ import com.example.jeroen.myhealthapp.models.ECG;
 import com.example.jeroen.myhealthapp.models.Measurement;
 import com.example.jeroen.myhealthapp.models.Pulse;
 import com.example.jeroen.myhealthapp.network.MyHealthService;
-import com.example.jeroen.myhealthapp.util.MeasurementListAdapter;
+import com.example.jeroen.myhealthapp.adapters.MeasurementListAdapter;
 
 import java.util.List;
-
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
 public class MeasurementListFragment extends Fragment {
     List<Measurement> mMeasurements;
